@@ -1,6 +1,10 @@
 {
   "name": "@boltcode/react-native-global-flow",
-  "version": "1.0.2",
+  "repository": {
+    "url": "https://github.com/boltcode-js/BoltcodeReactNative/tree/main/packages/react-native-global-flow",
+    "type": "git"
+  },
+  "version": "1.0.3",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
