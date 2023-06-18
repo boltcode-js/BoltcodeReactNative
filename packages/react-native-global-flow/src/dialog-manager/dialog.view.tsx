@@ -1,0 +1,88 @@
+import { TouchableWithoutFeedback, useWindowDimensions, View, ViewStyle } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+
+export type DialogViewProps = {
+  backgroundColor: string;
+  animationType: 'none' | 'slide' | 'fade';
+  onClickOutside?: () => void;
+  children: any;
+};
+
+const MAIN_VIEW_STYLE: ViewStyle = {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 0,
+  elevation: 0,
+};
+
+const OUTSIDE_VIEW_STYLE: ViewStyle = {
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 0,
+  elevation: 0,
+};
+
+const useModalAnimation = (animationType: DialogViewProps['animationType']) => {
+  const ref = useRef(animationType);
+  if (ref.current !== animationType) {
+    throw new Error("You can't change the animationType of a Modal during it's lifecycle");
+  }
+
+  /* eslint-disable react-hooks/rules-of-hooks */
+  if (animationType === 'slide') {
+    const winSize = useWindowDimensions();
+    const offset = useSharedValue(winSize.height);
+
+    const animatedStyles = useAnimatedStyle(() => ({
+      transform: [{ translateY: offset.value }],
+      ...MAIN_VIEW_STYLE,
+    }));
+
+    useEffect(() => {
+      offset.value = withTiming(0, { duration: 300 });
+    }, [offset]);
+
+    return animatedStyles;
+  } else if (animationType === 'fade') {
+    const opacity = useSharedValue(0);
+    const animatedStyles = useAnimatedStyle(() => ({
+      opacity: opacity.value,
+      ...MAIN_VIEW_STYLE,
+    }));
+
+    useEffect(() => {
+      opacity.value = withTiming(1, { duration: 300 });
+    }, [opacity]);
+
+    return animatedStyles;
+  } else {
+    return useAnimatedStyle(() => MAIN_VIEW_STYLE);
+  }
+  /* eslint-enable react-hooks/rules-of-hooks */
+};
+
+export const DialogView = (props: DialogViewProps) => {
+  const { backgroundColor, animationType, onClickOutside, children } = props;
+
+  const oudsideViewStyle = useMemo(() => [OUTSIDE_VIEW_STYLE, { backgroundColor }], [backgroundColor]);
+  const animatedStyles = useModalAnimation(animationType);
+
+  return (
+    <Animated.View style={animatedStyles}>
+      <TouchableWithoutFeedback onPress={onClickOutside}>
+        <View style={oudsideViewStyle} />
+      </TouchableWithoutFeedback>
+      {children}
+    </Animated.View>
+  );
+};

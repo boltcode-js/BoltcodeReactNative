@@ -1,0 +1,21 @@
+{
+  "name": "@boltcode/react-native-global-flow",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": ["lib/**/*"],
+  "scripts": {
+    "build": "rm -rf lib && tsc --project ./tsconfig.json",
+    "pub": "npm version patch && npm publish --registry http://localhost:4873/"
+  },
+  "peerDependencies": {
+    "react": "~18.2.0",
+    "react-native": "~0.71.11",
+    "react-native-reanimated": "~3.3.0",
+    "react-native-safe-area-context": "~4.5.3"
+  },
+  "devDependencies": {
+    "typescript": "4.8.4"
+  }
+}
