@@ -5,7 +5,7 @@
     "directory": "packages/react-native-global-flow",
     "type": "git"
   },
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "build": "rm -rf lib && tsc --project ./tsconfig.json",
-    "pub": "yarn publish --access public"
+    "pub": "yarn publish --access public",
+    "compile": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": "~18.2.0",
@@ -25,5 +26,8 @@
   },
   "devDependencies": {
     "typescript": "4.8.4"
+  },
+  "dependencies": {
+    "zustand": "^4.3.9"
   }
 }
