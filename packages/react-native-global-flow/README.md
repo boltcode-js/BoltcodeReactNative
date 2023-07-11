@@ -14,7 +14,7 @@ the need of managing painful states.
 # Installation & Setup
 
 ```bash
-yarn add react-native-global-flow
+yarn add @boltcode/react-native-global-flow
 
 # The library rely on react-native-reanimated & react-native-safe-area-context, you need to install these packages in your project
 yarn add react-native-reanimated react-native-safe-area-context
@@ -29,7 +29,7 @@ plugins: ['react-native-reanimated/plugin']
 Setup the provider:
 ```ts
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { GlobalFlowProvider } from 'react-native-global-flow';
+import { GlobalFlowProvider } from '@boltcode/react-native-global-flow';
 
 const App = () => {
   // Note: SafeAreaProvider is required to make the library working
