@@ -74,13 +74,13 @@ const useModalAnimation = (animationType: DialogViewProps['animationType']) => {
 export const DialogView = (props: DialogViewProps) => {
   const { backgroundColor, animationType, onClickOutside, children } = props;
 
-  const oudsideViewStyle = useMemo(() => [OUTSIDE_VIEW_STYLE, { backgroundColor }], [backgroundColor]);
+  const outsideViewStyle = useMemo(() => [OUTSIDE_VIEW_STYLE, { backgroundColor }], [backgroundColor]);
   const animatedStyles = useModalAnimation(animationType);
 
   return (
     <Animated.View style={animatedStyles}>
       <TouchableWithoutFeedback onPress={onClickOutside}>
-        <View style={oudsideViewStyle} />
+        <View style={outsideViewStyle} />
       </TouchableWithoutFeedback>
       {children}
     </Animated.View>

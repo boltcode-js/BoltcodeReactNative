@@ -10,7 +10,7 @@ const MAIN_VIEW_STYLE: ViewStyle = {
   left: 0,
 };
 
-export const GlobalBannerManager = () => {
+export const GlobalBannerConsumer = () => {
   const banners = useGlobalBannerStore((state) => state.banners);
   const destroyFirst = useGlobalBannerStore((state) => state.destroyFirst);
 

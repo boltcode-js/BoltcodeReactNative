@@ -10,7 +10,6 @@ const ShowModal = (props: { dial: DialogInstance<any, any> }) => {
   const { dial } = props;
 
   const Component = dial.Component;
-
   const context = useContext(GlobalFlowContext);
 
   const config = useMemo<DialogConfig>(
@@ -28,7 +27,7 @@ const ShowModal = (props: { dial: DialogInstance<any, any> }) => {
   );
 };
 
-export const DialogProvider = () => {
+export const DialogConsumer = () => {
   const dialogs = useDialogStore((state) => state.dialogs);
 
   if (dialogs.length <= 0) {

@@ -4,7 +4,7 @@ export type GlobalBanner = {
   id: number;
   type: GlobalBannerType;
   message: string;
-  duration: number;
+  duration?: number;
 };
 
 export const BANNER_SHORT = 1200;

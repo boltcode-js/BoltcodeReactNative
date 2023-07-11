@@ -22,7 +22,6 @@ const INITIAL_OFFSET = -100000;
 
 export const GlobalBannerView = (props: GlobalBannerViewProps) => {
   const { banner, onFinished } = props;
-  const { duration = 1500 } = banner;
 
   const context = useContext(GlobalFlowContext);
   const insets = useSafeAreaInsets();
@@ -30,6 +29,7 @@ export const GlobalBannerView = (props: GlobalBannerViewProps) => {
 
   const bgColor = context.bannerConfig.bgColors[banner.type];
   const textColor = context.bannerConfig.textColors?.[banner.type];
+  const duration = banner.duration || context.bannerConfig.defaultDuration;
 
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {

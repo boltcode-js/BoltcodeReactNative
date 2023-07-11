@@ -1,5 +1,5 @@
-import { useCallback, useContext } from 'react';
-import { GlobalFlowContext } from '../global-flow.provider';
+import { useCallback } from 'react';
+import { useGlobalProgressStore } from './global-progress.store';
 
 /**
  * Return an object with two function showGlobalProgress & hideGlobalProgress.
@@ -21,15 +21,24 @@ import { GlobalFlowContext } from '../global-flow.provider';
  * ```
  */
 export const useGlobalProgress = () => {
-  const context = useContext(GlobalFlowContext);
+  const setLoading = useGlobalProgressStore((state) => state.setLoading);
 
   const showGlobalProgress = useCallback(() => {
-    context.progressManager.current.show();
-  }, [context.progressManager]);
+    setLoading(true);
+  }, [setLoading]);
 
   const hideGlobalProgress = useCallback(() => {
-    context.progressManager.current.hide();
-  }, [context.progressManager]);
+    setLoading(false);
+  }, [setLoading]);
 
   return { showGlobalProgress, hideGlobalProgress };
+};
+
+export const GlobalProgressManager = () => {
+  const state = useGlobalProgressStore.getState();
+
+  return {
+    showGlobalProgress: () => state.setLoading(true),
+    hideGlobalProgress: () => state.setLoading(false),
+  };
 };

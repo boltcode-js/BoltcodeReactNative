@@ -13,3 +13,11 @@ import { useGlobalBannerStore } from './global-banner.store';
  * ```
  */
 export const useGlobalBanner = () => useGlobalBannerStore((state) => state.push);
+
+export const GlobalBannerManager = () => {
+  const state = useGlobalBannerStore.getState();
+
+  return {
+    show: state.push,
+  };
+};
