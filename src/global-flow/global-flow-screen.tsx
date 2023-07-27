@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 import { Button, View } from 'react-native';
 import {
+  DialogManager,
+  GlobalBannerManager,
+  GlobalProgressManager,
   useDialogManager,
   useGlobalBanner,
   useGlobalProgress,
-  GlobalBannerManager,
-  GlobalProgressManager,
-  DialogManager,
-} from '../packages/react-native-global-flow/src';
+} from '../../packages/react-native-global-flow/src';
 import { TestDialog } from './dialogs/test-dialog';
 
-export const TestGlobalFlow = () => {
+export const GlobalFlowScreen = () => {
   const showBanner = useGlobalBanner();
   const { pushDialog } = useDialogManager();
   const { showGlobalProgress, hideGlobalProgress } = useGlobalProgress();
