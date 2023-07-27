@@ -9,6 +9,7 @@ import {
   useGlobalProgress,
 } from '../../packages/react-native-global-flow/src';
 import { TestDialog } from './dialogs/test-dialog';
+import { KeyboardDialog } from './dialogs/keyboard-dialog';
 
 export const GlobalFlowScreen = () => {
   const showBanner = useGlobalBanner();
@@ -18,7 +19,8 @@ export const GlobalFlowScreen = () => {
   const handleOpenDialogHook = useCallback(async () => {
     await pushDialog(TestDialog, null, {
       animationType: 'slide',
-      quitOnTouchOutside: true,
+      quitOnTouchOutside: false,
+      androidCancelOnClickBack: false,
     }).waitIgnoreCancel();
   }, [pushDialog]);
 
@@ -27,6 +29,17 @@ export const GlobalFlowScreen = () => {
       .pushDialog(TestDialog, null, {
         animationType: 'slide',
         quitOnTouchOutside: true,
+        androidCancelOnClickBack: true,
+      })
+      .waitIgnoreCancel();
+  }, []);
+
+  const handleOpenKeyboardDialog = useCallback(async () => {
+    await DialogManager()
+      .pushDialog(KeyboardDialog, null, {
+        animationType: 'slide',
+        quitOnTouchOutside: true,
+        keyboardBehavior: 'padding',
       })
       .waitIgnoreCancel();
   }, []);
@@ -37,8 +50,9 @@ export const GlobalFlowScreen = () => {
       <Button title="Warn" onPress={() => showBanner('warn', 'Warning message')} />
       <Button title="Error" onPress={() => GlobalBannerManager().show('error', 'Error message')} />
       <Button title="Success" onPress={() => GlobalBannerManager().show('success', 'Success message')} />
-      <Button title="Dialog (hook)" onPress={handleOpenDialogHook} />
-      <Button title="Dialog (manager)" onPress={handleOpenDialogManager} />
+      <Button title="Dialog (can't touch outside)" onPress={handleOpenDialogHook} />
+      <Button title="Dialog (can touch outside)" onPress={handleOpenDialogManager} />
+      <Button title="Keyboard Dialog (manager)" onPress={handleOpenKeyboardDialog} />
       <Button
         title="Progress (hook)"
         onPress={() => {

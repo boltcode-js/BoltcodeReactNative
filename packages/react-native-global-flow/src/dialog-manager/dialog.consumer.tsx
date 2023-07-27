@@ -18,10 +18,7 @@ const ShowModal = (props: { dial: DialogInstance<any, any> }) => {
   );
 
   return (
-    <DialogView
-      backgroundColor={config.backgroundColor}
-      animationType={config.animationType}
-      onClickOutside={config.quitOnTouchOutside ? dial.context.onCancel : undefined}>
+    <DialogView onCancel={dial.context.onCancel} {...config}>
       <Component key={`component-${dial.id}`} {...dial.context} />
     </DialogView>
   );

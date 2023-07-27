@@ -10,14 +10,14 @@
 
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TestGlobalFlow } from './test-global-flow';
 import { GlobalFlowProvider } from '../packages/react-native-global-flow/src';
+import { RootNavigator } from './navigation/root-navigator';
 
 const App = () => {
   return (
     <SafeAreaProvider>
       <GlobalFlowProvider>
-        <TestGlobalFlow />
+        <RootNavigator />
       </GlobalFlowProvider>
     </SafeAreaProvider>
   );

@@ -1,4 +1,4 @@
-import { DialogContext } from '../../packages/react-native-global-flow/src';
+import { DialogContext } from '../../../packages/react-native-global-flow/src';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 

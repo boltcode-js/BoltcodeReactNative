@@ -1,4 +1,4 @@
-import { DialogContext, useDialogManager } from '../../packages/react-native-global-flow/src';
+import { DialogContext, useDialogManager } from '../../../packages/react-native-global-flow/src';
 import React, { useCallback } from 'react';
 import { Button, Text, View } from 'react-native';
 import { ConfirmDialog } from './confirm-dialog';
