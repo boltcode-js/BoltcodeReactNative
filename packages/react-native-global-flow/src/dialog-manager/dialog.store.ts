@@ -1,6 +1,7 @@
 import { DialogComponent, DialogHandler, DialogInstance } from './dialog.types';
 import { create } from 'zustand';
 import { DialogConfig } from './dialog.config';
+import { Keyboard } from 'react-native';
 
 export interface DialogState {
   nextId: number;
@@ -63,12 +64,14 @@ export const useDialogStore = create<DialogState>((set, get) => ({
         onConfirm: (result: Result) => {
           callInterceptor(result, interceptor).then((next) => {
             if (next) {
+              Keyboard.dismiss();
               resolvePromise(result);
               closeDialog(dialogId);
             }
           });
         },
         onCancel: () => {
+          Keyboard.dismiss();
           rejectPromise();
           closeDialog(dialogId);
         },

@@ -9,7 +9,6 @@ export const useModalKeyboardAnimation = (keyboardBehavior: DialogConfig['keyboa
     throw new Error("You can't change the keyboardBehavior of a Modal during it's lifecycle");
   }
 
-  console.log('keyboardBehavior: ', keyboardBehavior);
   if (!keyboardBehavior) {
     return {};
   }
