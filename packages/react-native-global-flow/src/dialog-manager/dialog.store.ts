@@ -63,8 +63,8 @@ export const useDialogStore = create<DialogState>((set, get) => ({
         open: true,
         onConfirm: (result: Result) => {
           callInterceptor(result, interceptor).then((next) => {
+            Keyboard.dismiss();
             if (next) {
-              Keyboard.dismiss();
               resolvePromise(result);
               closeDialog(dialogId);
             }
