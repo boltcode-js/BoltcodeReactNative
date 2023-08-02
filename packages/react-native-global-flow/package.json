@@ -5,7 +5,7 @@
     "directory": "packages/react-native-global-flow",
     "type": "git"
   },
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
