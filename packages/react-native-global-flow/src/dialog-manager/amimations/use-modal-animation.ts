@@ -62,7 +62,6 @@ export const useModalAnimation = (
     }, [offsetY]);
   }
 
-  console.log('mais la');
   if (animationType === 'slide') {
     const winSize = useWindowDimensions();
     const offset = useSharedValue(winSize.height);
@@ -94,7 +93,6 @@ export const useModalAnimation = (
 
     return animatedStyles;
   } else {
-    console.log('ici');
     return useAnimatedStyle(() => ({
       paddingTop: safearea.top,
       paddingBottom: offsetY.value + safearea.bottom,
