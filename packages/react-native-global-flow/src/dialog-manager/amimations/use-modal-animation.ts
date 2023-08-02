@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { useWindowDimensions, ViewStyle } from 'react-native';
+import { Keyboard, KeyboardEvent, Platform, useWindowDimensions, ViewStyle } from 'react-native';
 import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { DialogViewProps } from '../dialog.view';
+import { DialogConfig } from '../dialog.config';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MAIN_VIEW_STYLE: ViewStyle = {
   flex: 1,
@@ -16,19 +18,59 @@ const MAIN_VIEW_STYLE: ViewStyle = {
   elevation: 0,
 };
 
-export const useModalAnimation = (animationType: DialogViewProps['animationType']) => {
+export const useModalAnimation = (
+  animationType: DialogViewProps['animationType'],
+  keyboardBehavior: DialogConfig['keyboardBehavior'],
+) => {
   const ref = useRef(animationType);
   if (ref.current !== animationType) {
     throw new Error("You can't change the animationType of a Modal during it's lifecycle");
   }
 
+  const initialMode = useRef(keyboardBehavior);
+  if (initialMode.current !== keyboardBehavior) {
+    throw new Error("You can't change the keyboardBehavior of a Modal during it's lifecycle");
+  }
+
+  const offsetY = useSharedValue(0);
+  const safearea = useSafeAreaInsets();
+
   /* eslint-disable react-hooks/rules-of-hooks */
+  if (keyboardBehavior) {
+    useEffect(() => {
+      function onKeyboardShow(e: KeyboardEvent) {
+        offsetY.value = withTiming(e.endCoordinates.height, { duration: Platform.OS === 'android' ? 50 : 300 });
+      }
+
+      function onKeyboardHide() {
+        offsetY.value = withTiming(0, { duration: Platform.OS === 'android' ? 50 : 300 });
+      }
+
+      const showSubscription = Keyboard.addListener(
+        Platform.OS === 'android' ? 'keyboardDidShow' : 'keyboardWillShow',
+        onKeyboardShow,
+      );
+      const hideSubscription = Keyboard.addListener(
+        Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide',
+        onKeyboardHide,
+      );
+
+      return () => {
+        showSubscription.remove();
+        hideSubscription.remove();
+      };
+    }, [offsetY]);
+  }
+
+  console.log('mais la');
   if (animationType === 'slide') {
     const winSize = useWindowDimensions();
     const offset = useSharedValue(winSize.height);
 
     const animatedStyles = useAnimatedStyle(() => ({
       transform: [{ translateY: offset.value }],
+      paddingTop: safearea.top,
+      paddingBottom: offsetY.value + safearea.bottom,
       ...MAIN_VIEW_STYLE,
     }));
 
@@ -41,6 +83,8 @@ export const useModalAnimation = (animationType: DialogViewProps['animationType'
     const opacity = useSharedValue(0);
     const animatedStyles = useAnimatedStyle(() => ({
       opacity: opacity.value,
+      paddingTop: safearea.top,
+      paddingBottom: offsetY.value + safearea.bottom,
       ...MAIN_VIEW_STYLE,
     }));
 
@@ -50,7 +94,12 @@ export const useModalAnimation = (animationType: DialogViewProps['animationType'
 
     return animatedStyles;
   } else {
-    return useAnimatedStyle(() => MAIN_VIEW_STYLE);
+    console.log('ici');
+    return useAnimatedStyle(() => ({
+      paddingTop: safearea.top,
+      paddingBottom: offsetY.value + safearea.bottom,
+      ...MAIN_VIEW_STYLE,
+    }));
   }
   /* eslint-enable react-hooks/rules-of-hooks */
 };
